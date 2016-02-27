@@ -1,0 +1,70 @@
+package mysql
+
+const (
+	MinBinlogVersion = 4
+)
+
+var (
+	//BINLOG MAGIC
+	BinLogFileHeader []byte = []byte{0xfe, 0x62, 0x69, 0x6e}
+
+	SemiSyncIndicator byte = 0xef
+)
+
+type EventType byte
+
+const (
+	UNKNOWN_EVENT EventType = iota
+	START_EVENT_V3
+	QUERY_EVENT
+	STOP_EVENT
+	ROTATE_EVENT
+	INTVAR_EVENT
+	LOAD_EVENT
+	SLAVE_EVENT
+	CREATE_FILE_EVENT
+	APPEND_BLOCK_EVENT
+	EXEC_LOAD_EVENT
+	DELETE_FILE_EVENT
+	NEW_LOAD_EVENT
+	RAND_EVENT
+	USER_VAR_EVENT
+	FORMAT_DESCRIPTION_EVENT
+	XID_EVENT
+	BEGIN_LOAD_QUERY_EVENT
+	EXECUTE_LOAD_QUERY_EVENT
+	TABLE_MAP_EVENT
+	WRITE_ROWS_EVENTv0
+	UPDATE_ROWS_EVENTv0
+	DELETE_ROWS_EVENTv0
+	WRITE_ROWS_EVENTv1
+	UPDATE_ROWS_EVENTv1
+	DELETE_ROWS_EVENTv1
+	INCIDENT_EVENT
+	HEARTBEAT_EVENT
+	IGNORABLE_EVENT
+	ROWS_QUERY_EVENT
+	WRITE_ROWS_EVENTv2
+	UPDATE_ROWS_EVENTv2
+	DELETE_ROWS_EVENTv2
+	GTID_EVENT
+	ANONYMOUS_GTID_EVENT
+	PREVIOUS_GTIDS_EVENT
+)
+
+const (
+	// MariaDB event starts from 160
+	MARIADB_ANNOTATE_ROWS_EVENT EventType = 160 + iota
+	MARIADB_BINLOG_CHECKPOINT_EVENT
+	MARIADB_GTID_EVENT
+	MARIADB_GTID_LIST_EVENT
+)
+
+const (
+	BINLOG_CHECKSUM_ALG_OFF byte = 0 // Events are without checksum though its generator
+	// is checksum-capable New Master (NM).
+	BINLOG_CHECKSUM_ALG_CRC32 byte = 1 // CRC32 of zlib algorithm.
+	//  BINLOG_CHECKSUM_ALG_ENUM_END,  // the cut line: valid alg range is [1, 0x7f].
+	BINLOG_CHECKSUM_ALG_UNDEF byte = 255 // special value to tag undetermined yet checksum
+	// or events from checksum-unaware servers
+)
